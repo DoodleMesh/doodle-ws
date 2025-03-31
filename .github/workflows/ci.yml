@@ -19,6 +19,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build -t kush233/draw-webSocket .
+      run: docker build -t kush233/draw-websocket .
     - name: Push to dockerhub
-      run: docker push kush233/draw-webSocket:latest
+      run: docker push kush233/draw-websocket:latest

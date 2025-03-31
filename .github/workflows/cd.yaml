@@ -14,8 +14,8 @@ jobs:
 
     steps:
     - name: Pull Docker image
-      run: sudo docker pull kush233/draw-webSocket:latest
+      run: sudo docker pull kush233/draw-websocket:latest
     - name: Delete Old docker container
-      run: sudo docker rm -f draw-webSocket-container || true
+      run: sudo docker rm -f draw-websocket-container || true
     - name: Run Docker Container
-      run: sudo docker run -d -p 3002:3002 --name draw-webSocket-container kush233/draw-backend
+      run: sudo docker run -d -p 8080:8080 --name draw-websocket-container kush233/draw-websocket
