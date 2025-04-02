@@ -78,6 +78,7 @@ wss.on('connection', function connection(ws, request) {
         }
 
         if (parsedData.type === "chat") {
+            console.log("Message recieved")
             const { roomId, message } = parsedData;
             await prismaClient.chat.create({
                 data: { roomId: Number(roomId), message, userId }
