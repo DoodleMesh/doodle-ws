@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: wsbackend
-          image: kush233/wsbackend:latest
+          image: kush233/draw-wsbackend:latest
           ports:
             - containerPort: 8080
