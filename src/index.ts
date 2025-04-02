@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client")
 const prismaClient = new PrismaClient();
 
 // const wss = new WebSocketServer({port: 8080});
-const wss = new WebSocket.Server({ port: 8080, host: '0.0.0.0' });  // <- Binds to all IPs
+const wss = new WebSocket.Server({ port: 8080, host: '0.0.0.0' }); 
 
 
 interface User{
@@ -14,7 +14,7 @@ interface User{
     userId: string
 }
 
-const users: User[] = [];
+let users: User[] = [];
 
 function checkUser(token: string) : string | null {
     try {
@@ -41,7 +41,10 @@ wss.on('connection', function connection(ws,request) {
     if(!url){
         return;
     }
-    const queryParams = new URLSearchParams(url.split('?')[1])
+
+    const urlPath = url.startsWith("/ws") ? url.substring(3) : url;
+    const queryParams = new URLSearchParams(urlPath.split('?')[1]);
+
     const token = queryParams.get('token') || "";
     const userId = checkUser(token);
     
@@ -61,6 +64,10 @@ wss.on('connection', function connection(ws,request) {
         rooms: [],
         userId
     })
+    ws.on('close', function close() {
+        console.log(`User ${userId} disconnected`);
+        users = users.filter(user => user.ws !== ws);
+    });
 
     ws.on('message', async function message(data) {
         let parsedData;

@@ -10,7 +10,8 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /ws  # Ensure frontend connects to WebSocket at /ws
+            prefix: /ws  
+      websocketUpgrade: true       
       route:
         - destination:
             host: wsbackend
