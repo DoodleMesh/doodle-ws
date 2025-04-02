@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wsbackend
+  labels:
+    app: wsbackend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wsbackend
+  template:
+    metadata:
+      labels:
+        app: wsbackend
+    spec:
+      containers:
+        - name: wsbackend
+          image: kush233/wsbackend:latest
+          ports:
+            - containerPort: 8080
