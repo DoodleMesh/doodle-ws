@@ -1,8 +1,8 @@
-
 import { WebSocket, WebSocketServer } from 'ws';
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from './config';
-const { prismaClient } = require("@repo/db/client")
+const { PrismaClient } = require("@prisma/client");
+const prismaClient = new PrismaClient();
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -99,7 +99,6 @@ wss.on('connection', function connection(ws, request) {
       users.forEach(user => {
         console.log("MILA->" + user.userId);
         console.log(user.rooms);
-        
         if (user.rooms.map(String).includes(String(roomId))) {
         console.log("BOOM");
          console.log("Sending to " + user.userId);
