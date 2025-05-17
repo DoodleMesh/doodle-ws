@@ -18,7 +18,26 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
-    - name: Build the Docker image
-      run: docker build -t kush233/draw-websocket .
-    - name: Push to dockerhub
-      run: docker push kush233/draw-websocket:latest
+    - name: Build and push docker image
+      uses: docker/build-push-action@v4
+      with:
+        context:
+        file: Dockerfile
+        push: true
+        tags: kush233/draw-websocket:${{ github.sha }}
+  
+    - name: Clone ops-repo & push image tags
+      env:  
+        PAT: ${{ secrets.PAT }}
+      run: | 
+        git clone https://github.com/DoodleMesh/argo-ws
+        cd argo-frontend
+
+        sed -i 's|image: kush233/draw-websocket:.*|image: kush233/draw-websocket:${{ github.sha }}|' deployment.yaml
+
+        git config user.name "kushan23"
+        git config user.email "kushan.arora23@gmail.com"
+        git add .
+        git commit -m "Updated image tag to ${{ github.sha }}"
+        git push https://${PAT}@github.com/DoodleMesh/argo-websocket.git main
+   
