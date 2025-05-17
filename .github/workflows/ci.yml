@@ -31,7 +31,7 @@ jobs:
         PAT: ${{ secrets.PAT }}
       run: | 
         git clone https://github.com/DoodleMesh/argo-ws
-        cd argo-frontend
+        cd argo-ws
 
         sed -i 's|image: kush233/draw-websocket:.*|image: kush233/draw-websocket:${{ github.sha }}|' deployment.yaml
 
